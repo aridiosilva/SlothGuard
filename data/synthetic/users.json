@@ -1,0 +1,403 @@
+[
+  {
+    "user_id": "U001",
+    "name": "User 001 (synthetic)",
+    "unit": "Procurement",
+    "roles": [
+      "Payment_Release",
+      "Vendor_Master_Maintain"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U002",
+    "name": "User 002 (synthetic)",
+    "unit": "Procurement",
+    "roles": [
+      "Purchase_Approver",
+      "Purchase_Requester",
+      "Report_Viewer"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U003",
+    "name": "User 003 (synthetic)",
+    "unit": "Operations",
+    "roles": [
+      "Journal_Entry_Approve",
+      "Journal_Entry_Create"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U004",
+    "name": "User 004 (synthetic)",
+    "unit": "Procurement",
+    "roles": [
+      "Audit_Log_Admin",
+      "Helpdesk_Agent",
+      "User_Admin"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U005",
+    "name": "User 005 (synthetic)",
+    "unit": "Operations",
+    "roles": [
+      "Report_Viewer"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U006",
+    "name": "User 006 (synthetic)",
+    "unit": "Procurement",
+    "roles": [
+      "Expense_Submit",
+      "Report_Viewer"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U007",
+    "name": "User 007 (synthetic)",
+    "unit": "Finance",
+    "roles": [
+      "Bank_Reconcile",
+      "Payment_Release"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U008",
+    "name": "User 008 (synthetic)",
+    "unit": "Operations",
+    "roles": [
+      "Dev_Commit",
+      "Prod_Deploy",
+      "Report_Viewer"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U009",
+    "name": "User 009 (synthetic)",
+    "unit": "Finance",
+    "roles": [
+      "Inventory_Adjust",
+      "Inventory_Count_Approve"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U010",
+    "name": "User 010 (synthetic)",
+    "unit": "HR",
+    "roles": [
+      "Payroll_Approve",
+      "Payroll_Maintain"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U011",
+    "name": "User 011 (synthetic)",
+    "unit": "Operations",
+    "roles": [
+      "AP_Invoice_Enter",
+      "Report_Viewer"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U012",
+    "name": "User 012 (synthetic)",
+    "unit": "Operations",
+    "roles": [
+      "Helpdesk_Agent"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U013",
+    "name": "User 013 (synthetic)",
+    "unit": "HR",
+    "roles": [
+      "Dev_Commit",
+      "Helpdesk_Agent"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U014",
+    "name": "User 014 (synthetic)",
+    "unit": "HR",
+    "roles": [
+      "Bank_Reconcile",
+      "Prod_Deploy",
+      "Vendor_Master_Maintain"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U015",
+    "name": "User 015 (synthetic)",
+    "unit": "HR",
+    "roles": [
+      "Expense_Submit"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U016",
+    "name": "User 016 (synthetic)",
+    "unit": "IT",
+    "roles": [
+      "Audit_Log_Admin",
+      "Bank_Reconcile",
+      "Inventory_Adjust"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U017",
+    "name": "User 017 (synthetic)",
+    "unit": "Operations",
+    "roles": [
+      "Journal_Entry_Create"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U018",
+    "name": "User 018 (synthetic)",
+    "unit": "Finance",
+    "roles": [
+      "AP_Invoice_Enter"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U019",
+    "name": "User 019 (synthetic)",
+    "unit": "Procurement",
+    "roles": [
+      "Payroll_Maintain"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U020",
+    "name": "User 020 (synthetic)",
+    "unit": "Operations",
+    "roles": [
+      "Bank_Reconcile",
+      "Purchase_Requester",
+      "Vendor_Master_Maintain"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U021",
+    "name": "User 021 (synthetic)",
+    "unit": "Finance",
+    "roles": [
+      "Payroll_Approve"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U022",
+    "name": "User 022 (synthetic)",
+    "unit": "Finance",
+    "roles": [
+      "AP_Invoice_Enter",
+      "Payroll_Maintain",
+      "Purchase_Requester"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U023",
+    "name": "User 023 (synthetic)",
+    "unit": "Procurement",
+    "roles": [
+      "AP_Invoice_Enter"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U024",
+    "name": "User 024 (synthetic)",
+    "unit": "Operations",
+    "roles": [
+      "Report_Viewer",
+      "Vendor_Master_Maintain"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U025",
+    "name": "User 025 (synthetic)",
+    "unit": "HR",
+    "roles": [
+      "Audit_Log_Admin",
+      "Journal_Entry_Create"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U026",
+    "name": "User 026 (synthetic)",
+    "unit": "Finance",
+    "roles": [
+      "Dev_Commit"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U027",
+    "name": "User 027 (synthetic)",
+    "unit": "Finance",
+    "roles": [
+      "Audit_Log_Admin",
+      "Vendor_Master_Maintain"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U028",
+    "name": "User 028 (synthetic)",
+    "unit": "IT",
+    "roles": [
+      "AP_Invoice_Enter",
+      "Payroll_Maintain",
+      "Report_Viewer"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U029",
+    "name": "User 029 (synthetic)",
+    "unit": "IT",
+    "roles": [
+      "AP_Invoice_Enter",
+      "Purchase_Approver"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U030",
+    "name": "User 030 (synthetic)",
+    "unit": "Operations",
+    "roles": [
+      "Payment_Release"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U031",
+    "name": "User 031 (synthetic)",
+    "unit": "IT",
+    "roles": [
+      "Purchase_Requester",
+      "Report_Viewer",
+      "Vendor_Master_Maintain"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U032",
+    "name": "User 032 (synthetic)",
+    "unit": "HR",
+    "roles": [
+      "Payment_Release",
+      "Report_Viewer"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U033",
+    "name": "User 033 (synthetic)",
+    "unit": "Procurement",
+    "roles": [
+      "Payroll_Approve",
+      "User_Admin",
+      "Vendor_Master_Maintain"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U034",
+    "name": "User 034 (synthetic)",
+    "unit": "Procurement",
+    "roles": [
+      "Report_Viewer"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U035",
+    "name": "User 035 (synthetic)",
+    "unit": "HR",
+    "roles": [
+      "Journal_Entry_Create",
+      "Report_Viewer"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U036",
+    "name": "User 036 (synthetic)",
+    "unit": "Finance",
+    "roles": [
+      "AP_Invoice_Enter"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U037",
+    "name": "User 037 (synthetic)",
+    "unit": "Operations",
+    "roles": [
+      "Journal_Entry_Approve",
+      "Vendor_Master_Maintain"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U038",
+    "name": "User 038 (synthetic)",
+    "unit": "HR",
+    "roles": [
+      "Dev_Commit",
+      "Inventory_Count_Approve",
+      "Purchase_Requester"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U039",
+    "name": "User 039 (synthetic)",
+    "unit": "Procurement",
+    "roles": [
+      "Expense_Submit",
+      "Purchase_Requester",
+      "Vendor_Master_Maintain"
+    ],
+    "synthetic": true
+  },
+  {
+    "user_id": "U040",
+    "name": "User 040 (synthetic)",
+    "unit": "Operations",
+    "roles": [
+      "AP_Invoice_Enter",
+      "Prod_Deploy",
+      "Report_Viewer"
+    ],
+    "synthetic": true
+  }
+]

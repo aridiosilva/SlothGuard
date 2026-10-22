@@ -1,0 +1,92 @@
+[
+  {
+    "id": "SOD-001",
+    "name": "Vendor maintenance vs. payment release",
+    "conflicting_roles": [
+      "Vendor_Master_Maintain",
+      "Payment_Release"
+    ],
+    "severity": "high",
+    "description": "The same person could create a fictitious vendor and pay it."
+  },
+  {
+    "id": "SOD-002",
+    "name": "Purchase request vs. purchase approval",
+    "conflicting_roles": [
+      "Purchase_Requester",
+      "Purchase_Approver"
+    ],
+    "severity": "high",
+    "description": "The same person could request and approve their own purchase."
+  },
+  {
+    "id": "SOD-003",
+    "name": "Journal entry creation vs. approval",
+    "conflicting_roles": [
+      "Journal_Entry_Create",
+      "Journal_Entry_Approve"
+    ],
+    "severity": "high",
+    "description": "The same person could post and approve an accounting entry."
+  },
+  {
+    "id": "SOD-004",
+    "name": "Payroll maintenance vs. payroll approval",
+    "conflicting_roles": [
+      "Payroll_Maintain",
+      "Payroll_Approve"
+    ],
+    "severity": "high",
+    "description": "The same person could change pay data and approve the payroll run."
+  },
+  {
+    "id": "SOD-005",
+    "name": "Bank reconciliation vs. payment release",
+    "conflicting_roles": [
+      "Bank_Reconcile",
+      "Payment_Release"
+    ],
+    "severity": "medium",
+    "description": "The same person could release a payment and hide it in the reconciliation."
+  },
+  {
+    "id": "SOD-006",
+    "name": "User administration vs. audit log administration",
+    "conflicting_roles": [
+      "User_Admin",
+      "Audit_Log_Admin"
+    ],
+    "severity": "high",
+    "description": "The same person could grant access and erase the trail of that change."
+  },
+  {
+    "id": "SOD-007",
+    "name": "Code development vs. production deploy",
+    "conflicting_roles": [
+      "Dev_Commit",
+      "Prod_Deploy"
+    ],
+    "severity": "medium",
+    "description": "The same person could write code and push it to production unreviewed."
+  },
+  {
+    "id": "SOD-008",
+    "name": "Inventory adjustment vs. inventory count approval",
+    "conflicting_roles": [
+      "Inventory_Adjust",
+      "Inventory_Count_Approve"
+    ],
+    "severity": "low",
+    "description": "The same person could adjust stock and approve the count."
+  },
+  {
+    "id": "SOD-009",
+    "name": "Invoice entry vs. payment release",
+    "conflicting_roles": [
+      "AP_Invoice_Enter",
+      "Payment_Release"
+    ],
+    "severity": "medium",
+    "description": "The same person could enter an invoice and release its payment."
+  }
+]
