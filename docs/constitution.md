@@ -18,6 +18,7 @@ Regras que não mudam durante o desafio. Se um item entrar em conflito com a pre
 8. **IA aberta no centro.** O modelo é open-weight, roda localmente via Ollama e é intercambiável. O post explica por que isso importa (dados de acesso não saem da máquina).
 9. **Projeto novo, crédito a terceiros.** Tudo nasce dentro da janela. Código de exemplo do Auth0 ou de outros é creditado no README e no post. Commits feitos depois do prazo são listados no README.
 10. **Post em inglês.** Posts em outro idioma não concorrem a prêmio.
+11. **Custo zero.** Nenhum plano pago, assinatura ou compra para este projeto. Só entram serviços usados no plano gratuito. Se um recurso exigir pagamento, ele sai do escopo e o post diz isso com clareza, sem declarar o uso do recurso.
 
 ## Definição de pronto (por tarefa)
 
@@ -27,4 +28,4 @@ Regras que não mudam durante o desafio. Se um item entrar em conflito com a pre
 
 ## Fora de escopo
 
-Token Vault e integrações externas (Slack, Google), fine-tuning, dados reais, múltiplos idiomas na interface, e qualquer ação além de `revoke_role`.
+Token Vault e integrações externas (Slack, Google), fine-tuning, dados reais, múltiplos idiomas na interface, qualquer ação além de `revoke_role` e qualquer recurso que exija plano pago.

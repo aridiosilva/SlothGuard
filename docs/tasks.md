@@ -9,7 +9,7 @@ Comando padrão: `.\.venv\Scripts\python -m pytest -q`
 - [ ] T01 Copiar o pacote de testes para o repositório, instalar `pytest` e confirmar o **vermelho** (erro de importação é o esperado). Commit: `test: add failing tests and synthetic data`.
 - [ ] T02 Criar `src/slothguard/__init__.py` e implementar `models.py`. Commit `feat:`.
 - [ ] T03 GREEN de `tests/test_loaders.py` e `tests/test_rules.py` (`rules/__init__.py` e `rules/loaders.py`). Depois `tests/test_data_synthetic.py`. Commit `feat:`.
-- [ ] T04 Criar o tenant do Auth0 e **verificar se a autorização assíncrona (CIBA) está disponível no plano**. Anotar o resultado em `docs/evidence/auth0-notes.md` (sem segredos).
+- [ ] T04 Criar um tenant **gratuito** do Auth0 (sem pagar nada) e verificar se a autorização assíncrona (CIBA) pode ser habilitada e usada nele. Anotar o resultado, inclusive se o painel pedir upgrade, em `docs/evidence/auth0-notes.md` (sem segredos). **Ponto de decisão: sexta, 23/10, à tarde.** Sem CIBA gratuito, seguir com login Auth0 e gateway simulado declarado.
 - [ ] T05 Instalar o Ollama e medir o E2B: `ollama run gemma4:e2b --verbose`. Anotar tokens/s e as condições em `docs/evidence/ollama-baseline.md`.
 
 ## Sexta, 23/10
@@ -23,7 +23,7 @@ Comando padrão: `.\.venv\Scripts\python -m pytest -q`
 ## Sábado, 24/10
 
 - [ ] T11 GREEN de `tests/test_approvals.py` (`auth/approvals.py`).
-- [ ] T12 `Auth0CibaGateway` conforme a documentação do Auth0 (ou gateway simulado se o T04 mostrar que o recurso não está disponível, deixando isso explícito).
+- [ ] T12 `Auth0CibaGateway` conforme a documentação do Auth0, **somente se o T04 mostrou CIBA disponível sem custo**. Caso contrário, gateway simulado, deixando isso explícito no README e no post.
 - [ ] T13 Login via Auth0 na interface e botão "propor revogação" ligado ao `RemediationExecutor`; trilha de auditoria visível.
 - [ ] T14 Teste ponta a ponta manual do fluxo de aprovação. Gravar o vídeo de demonstração (com os explicativos já em cache, e dizer isso no post).
 - [ ] T15 Medir o tempo economizado: revisão manual de uma amostra contra o relatório do agente. Salvar em `docs/evidence/lazy-payoff.md`.

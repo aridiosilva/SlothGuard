@@ -63,15 +63,18 @@ O conjunto fornecido tem 40 usuários e 9 regras. Em uma execução de verifica�
 
 ## 7. Verificação manual (sem teste automatizado, por depender do tenant Auth0)
 
-- Login via Universal Login.
-- Fluxo de aprovação assíncrona (CIBA) de ponta a ponta. **Verificar no primeiro dia se o plano do tenant oferece o recurso.** Se não oferecer, registrar a limitação no post e usar um gateway simulado, sem declarar uso do recurso.
+Tudo é feito em um tenant **gratuito do Auth0**, sem pagar nada (princípio 11 da constituição).
+
+- Login via Universal Login (nível 1 do Auth0).
+- Aprovação assíncrona (CIBA) de ponta a ponta (nível 2). **As fontes divergem sobre o plano gratuito:** o anúncio oficial de disponibilidade geral do Auth0 for AI Agents (24/11/2025) diz que o plano gratuito inclui a autorização assíncrona, enquanto páginas da documentação dizem que o CIBA exige o plano Enterprise ou um complemento, e que a notificação por e-mail é um complemento pago. Só o tenant gratuito resolve a dúvida. Se o recurso não estiver disponível sem pagar, usar o gateway simulado e declarar isso no post, sem afirmar o uso da autorização assíncrona.
+- Pré-requisitos do CIBA segundo a documentação: o usuário autorizador precisa ter um canal de notificação (push do app Guardian ou e-mail verificado).
 
 ## 8. Extra, só se sobrar tempo
 
-Auth0 FGA para limitar o que o RAG recupera por perfil.
+Auth0 FGA para limitar o que o RAG recupera por perfil, somente se estiver disponível no plano gratuito (não verificado).
 
 ## 9. Riscos conhecidos
 
 - Velocidade do modelo em CPU de 15 W com memória em canal único: medir antes de prometer qualquer número.
 - RAM quase toda ocupada na máquina de desenvolvimento: fechar programas antes de carregar o modelo.
-- CIBA no plano do Auth0: ver item 7.
+- CIBA no plano gratuito do Auth0: fontes divergentes, ver item 7. Sem pagar nada, o fallback é o gateway simulado, declarado no post.
