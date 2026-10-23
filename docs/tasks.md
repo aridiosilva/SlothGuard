@@ -6,11 +6,11 @@ Comando padrão: `.\.venv\Scripts\python -m pytest -q`
 
 ## Quinta, 22/10 (hoje)
 
-- [ ] T01 Copiar o pacote de testes para o repositório, instalar `pytest` e confirmar o **vermelho** (erro de importação é o esperado). Commit: `test: add failing tests and synthetic data`.
-- [ ] T02 Criar `src/slothguard/__init__.py` e implementar `models.py`. Commit `feat:`.
-- [ ] T03 GREEN de `tests/test_loaders.py` e `tests/test_rules.py` (`rules/__init__.py` e `rules/loaders.py`). Depois `tests/test_data_synthetic.py`. Commit `feat:`.
-- [ ] T04 Criar um tenant **gratuito** do Auth0 (sem pagar nada) e verificar se a autorização assíncrona (CIBA) pode ser habilitada e usada nele. Anotar o resultado, inclusive se o painel pedir upgrade, em `docs/evidence/auth0-notes.md` (sem segredos). **Ponto de decisão: sexta, 23/10, à tarde.** Sem CIBA gratuito, seguir com login Auth0 e gateway simulado declarado.
-- [ ] T05 Instalar o Ollama e medir o E2B: `ollama run gemma4:e2b --verbose`. Anotar tokens/s e as condições em `docs/evidence/ollama-baseline.md`.
+- [x] T01 Copiar o pacote de testes para o repositório, instalar `pytest` e confirmar o **vermelho** (erro de importação é o esperado). Commit: `test: add failing tests and synthetic data`.
+- [x] T02 Criar `src/slothguard/__init__.py` e implementar `models.py`. Commit `feat:`.
+- [x] T03 GREEN de `tests/test_loaders.py` e `tests/test_rules.py` (`rules/__init__.py` e `rules/loaders.py`). Depois `tests/test_data_synthetic.py`. Commit `feat:`.
+- [x] T04 Criar um tenant **gratuito** do Auth0 (sem pagar nada) e verificar se a autorização assíncrona (CIBA) pode ser habilitada e usada nele. Anotar o resultado, inclusive se o painel pedir upgrade, em `docs/evidence/auth0-notes.md` (sem segredos). **Ponto de decisão: sexta, 23/10, à tarde.** Sem CIBA gratuito, seguir com login Auth0 e gateway simulado declarado.
+- [x] T05 Instalar o Ollama e medir o E2B: `ollama run gemma4:e2b --verbose`. Anotar tokens/s e as condições em `docs/evidence/ollama-baseline.md`.
 
 ## Sexta, 23/10
 
