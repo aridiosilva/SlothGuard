@@ -20,13 +20,13 @@ Comando padrão: `.\.venv\Scripts\python -m pytest -q`
 - [x] T07 Implementar `OllamaClient` enviando `think: false` (medido em 23/10: cerca de 81% menos tokens e cerca de 4,3x mais rápido) e rodar `RUN_OLLAMA_TESTS=1` em `tests/integration`. Conferir o formato da API local do Ollama na documentação oficial antes de escrever.
 - [x] T08 GREEN de `tests/test_report.py` (`report/__init__.py`).
 - [x] T09 Script `scripts/run_review.py`: carrega os dados, detecta, explica em lote com cache, grava `docs/evidence/report-sample.md`. Fechar o navegador e o ambiente do Kaggle durante a geração.
-- [ ] T10 Interface mínima (somente leitura) mostrando o relatório.
+- [x] T10 Interface mínima (somente leitura) mostrando o relatório.
 
 ## Sábado, 24/10
 
 - [x] T11 GREEN de `tests/test_approvals.py` (`auth/approvals.py`).
 - [x] T12 `Auth0CibaGateway`, **testes primeiro** (`tests/test_auth0_gateway.py`, com HTTP falsificado). O CIBA com push foi verificado no tenant de avaliação (T04c), então o gateway real é o caminho. Requisitos conferidos na documentação do Auth0 e no teste manual: pedido em `/bc-authorize` com `login_hint` no formato `iss_sub`, `scope=openid`, `binding_message` obrigatória (até 64 caracteres, só alfanuméricos e `+-_.,:#`) e `requested_expiry` de até 300 s para usar o push; consulta a `/oauth/token` com o grant `urn:openid:params:grant-type:ciba` a cada cerca de 5 s, respeitando `slow_down`; no máximo 5 pedidos por minuto por usuário. Mapeamento: `authorization_pending` vira `PENDING`; token recebido vira `APPROVED`; `access_denied` dentro do prazo vira `DENIED`; prazo local vencido sem resposta vira `EXPIRED` (a documentação usa `access_denied` para recusa e expiração, então o relógio local decide). Credenciais só do `.env`, nunca impressas. Se o CIBA deixar de estar disponível, usar gateway simulado e declarar isso no README e no post.
-- [ ] T13 Login via Auth0 na interface e botão "propor revogação" ligado ao `RemediationExecutor`; trilha de auditoria visível.
+- [x] T13 Login via Auth0 na interface e botão "propor revogação" ligado ao `RemediationExecutor`; trilha de auditoria visível.
 - [ ] T14 Teste ponta a ponta manual do fluxo de aprovação. Gravar o vídeo de demonstração (com os explicativos já em cache, e dizer isso no post). A avaliação do Auth0 tinha 21 dias restantes em 23/10, o que cobre o desafio; o post diz que o CIBA foi usado durante a avaliação.
 - [ ] T15 Medir o tempo economizado: revisão manual de uma amostra contra o relatório do agente. Salvar em `docs/evidence/lazy-payoff.md`.
 
