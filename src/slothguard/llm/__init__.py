@@ -11,6 +11,20 @@ from dataclasses import dataclass
 from typing import Optional, Protocol
 
 from slothguard.models import Finding, SoDRule
+from slothguard.llm.ollama_client import OllamaClient, OllamaError
+
+__all__ = [
+    "Explanation",
+    "ExplanationCache",
+    "LLMClient",
+    "MAX_SENTENCES",
+    "OllamaClient",
+    "OllamaError",
+    "build_prompt",
+    "count_sentences",
+    "explain_finding",
+    "fallback_text",
+]
 
 MAX_SENTENCES = 4
 
