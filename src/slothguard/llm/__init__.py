@@ -23,6 +23,7 @@ __all__ = [
     "OllamaClient",
     "OllamaError",
     "build_prompt",
+    "clean_model_text",
     "count_sentences",
     "explain_finding",
     "fallback_text",
@@ -33,6 +34,9 @@ MAX_SENTENCES = 4
 # A sentence ends at . ! or ? followed by whitespace and a capital letter, a digit,
 # a quote or an opening bracket. This keeps "e.g. approvals" and "3.5" in one piece.
 _SENTENCE_BREAK = re.compile(r"(?<=[.!?])\s+(?=[A-Z0-9\"'(\[])")
+
+# Markdown escapes such as \_ and \* that models often add.
+_MARKDOWN_ESCAPE = re.compile(r"\\([\\`*_{}\[\]()#+\-.!|>~])")
 
 
 class LLMClient(Protocol):
@@ -86,8 +90,14 @@ class ExplanationCache:
             if not (isinstance(entry, dict) and all(isinstance(entry.get(k), str)
                                                     for k in ("rule_id", "user_id", "text"))):
                 raise ValueError(f"{file}: every entry needs rule_id, user_id and text")
-            cache._data[(entry["rule_id"], entry["user_id"])] = entry["text"]
+            cache._data[(entry["rule_id"], entry["user_id"])] = clean_model_text(entry["text"])
         return cache
+
+
+def clean_model_text(text: str) -> str:
+    """Remove Markdown decoration from a model answer: escapes (\\_), backticks and bold marks."""
+    text = _MARKDOWN_ESCAPE.sub(r"\1", text)
+    return text.replace("**", "").replace("`", "").strip()
 
 
 def count_sentences(text: str) -> int:
@@ -135,10 +145,10 @@ def explain_finding(
     except Exception:
         return Explanation(text=fallback_text(finding, rule), source="fallback", reason="model_error")
 
-    if not isinstance(answer, str) or not answer.strip():
+    text = clean_model_text(answer) if isinstance(answer, str) else ""
+    if not text:
         return Explanation(text=fallback_text(finding, rule), source="fallback", reason="empty_answer")
 
-    text = answer.strip()
     if count_sentences(text) > max_sentences:
         return Explanation(text=fallback_text(finding, rule), source="fallback", reason="too_many_sentences")
 
