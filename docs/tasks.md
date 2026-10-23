@@ -16,15 +16,15 @@ Comando padrão: `.\.venv\Scripts\python -m pytest -q`
 
 - [x] T04b Usuário de teste no tenant do Auth0 com push cadastrado no app Guardian (feito em 23/10: o painel lista o aparelho como cadastrado por push e TOTP, e o atributo `multifactor` mostra `guardian`). Anotado em `docs/evidence/auth0-notes.md`.
 - [x] T04c Teste manual de CIBA com `scripts/ciba_smoke_test.py` (feito em 23/10): aprovação (11,8 s) e recusa (5,9 s) funcionaram no tenant de avaliação, com o canal Guardian Push. Os tempos incluem a resposta humana e o intervalo de 5 s da consulta, então não são latência do Auth0. Disponibilidade depois da avaliação: não verificada.
-- [ ] T06 Explicações, **testes primeiro**: (RED) `tests/test_explain.py` atualizado, com os testes novos do limite de frases; (GREEN) `src/slothguard/llm/__init__.py` com `explain_finding`, cache, texto de reserva e limite de `max_sentences=4` aplicado pelo código. Dois commits: `test:` e depois `feat:`.
-- [ ] T07 Implementar `OllamaClient` enviando `think: false` (medido em 23/10: cerca de 81% menos tokens e cerca de 4,3x mais rápido) e rodar `RUN_OLLAMA_TESTS=1` em `tests/integration`. Conferir o formato da API local do Ollama na documentação oficial antes de escrever.
-- [ ] T08 GREEN de `tests/test_report.py` (`report/__init__.py`).
+- [x] T06 Explicações, **testes primeiro**: (RED) `tests/test_explain.py` atualizado, com os testes novos do limite de frases; (GREEN) `src/slothguard/llm/__init__.py` com `explain_finding`, cache, texto de reserva e limite de `max_sentences=4` aplicado pelo código. Dois commits: `test:` e depois `feat:`.
+- [x] T07 Implementar `OllamaClient` enviando `think: false` (medido em 23/10: cerca de 81% menos tokens e cerca de 4,3x mais rápido) e rodar `RUN_OLLAMA_TESTS=1` em `tests/integration`. Conferir o formato da API local do Ollama na documentação oficial antes de escrever.
+- [x] T08 GREEN de `tests/test_report.py` (`report/__init__.py`).
 - [ ] T09 Script `scripts/run_review.py`: carrega os dados, detecta, explica em lote com cache, grava `docs/evidence/report-sample.md`. Fechar o navegador e o ambiente do Kaggle durante a geração.
 - [ ] T10 Interface mínima (somente leitura) mostrando o relatório.
 
 ## Sábado, 24/10
 
-- [ ] T11 GREEN de `tests/test_approvals.py` (`auth/approvals.py`).
+- [x] T11 GREEN de `tests/test_approvals.py` (`auth/approvals.py`).
 - [ ] T12 `Auth0CibaGateway`, **testes primeiro** (`tests/test_auth0_gateway.py`, com HTTP falsificado). O CIBA com push foi verificado no tenant de avaliação (T04c), então o gateway real é o caminho. Requisitos conferidos na documentação do Auth0 e no teste manual: pedido em `/bc-authorize` com `login_hint` no formato `iss_sub`, `scope=openid`, `binding_message` obrigatória (até 64 caracteres, só alfanuméricos e `+-_.,:#`) e `requested_expiry` de até 300 s para usar o push; consulta a `/oauth/token` com o grant `urn:openid:params:grant-type:ciba` a cada cerca de 5 s, respeitando `slow_down`; no máximo 5 pedidos por minuto por usuário. Mapeamento: `authorization_pending` vira `PENDING`; token recebido vira `APPROVED`; `access_denied` dentro do prazo vira `DENIED`; prazo local vencido sem resposta vira `EXPIRED` (a documentação usa `access_denied` para recusa e expiração, então o relógio local decide). Credenciais só do `.env`, nunca impressas. Se o CIBA deixar de estar disponível, usar gateway simulado e declarar isso no README e no post.
 - [ ] T13 Login via Auth0 na interface e botão "propor revogação" ligado ao `RemediationExecutor`; trilha de auditoria visível.
 - [ ] T14 Teste ponta a ponta manual do fluxo de aprovação. Gravar o vídeo de demonstração (com os explicativos já em cache, e dizer isso no post). A avaliação do Auth0 tinha 21 dias restantes em 23/10, o que cobre o desafio; o post diz que o CIBA foi usado durante a avaliação.
