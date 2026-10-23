@@ -7,3 +7,6 @@ data/real/
 
 *.pfx
 *.p12
+
+.env.*
+!.env.example
