@@ -5,3 +5,5 @@ MFA page review (2026-10-22 19:24): only Push (Auth0 Guardian) enabled; MFA poli
 
 T04b (2026-10-23): test user created in the dashboard (database connection); email verified through the Auth0 verification email; enrollment invitation sent from User > Details > Multi-Factor Authentication; the invitation page showed a QR code that was scanned with the Guardian app. The dashboard lists the device as "Enrolled using Push Notification and TOTP" and the user attribute multifactor shows ["guardian"]. A recovery code was issued and stored outside the repository.
 Not yet proven at this point: a real push approval request reaching the phone (CIBA end to end).
+
+CIBA smoke test (2026-10-23): approve run = APPROVED after 11.8 s; deny run = DENIED or expired after 5.9 s (the script cannot tell a denial from an expiry, but 5.9 s is far below the 120 s requested expiry, consistent with the explicit denial made on the phone). Tokens were not printed. Elapsed times include the human response and the 5 s polling interval, so they are not Auth0 latency. Observed during the Auth0 trial; availability after the trial is not verified.
