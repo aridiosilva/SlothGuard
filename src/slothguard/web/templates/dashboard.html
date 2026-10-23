@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Findings - SlothGuard{% endblock %}
+{% block content %}
+<h1>Findings</h1>
+<div class="summary">
+  <span class="badge high">High: {{ counts.high }}</span>
+  <span class="badge medium">Medium: {{ counts.medium }}</span>
+  <span class="badge low">Low: {{ counts.low }}</span>
+</div>
+<p class="muted">Severity comes from the rules, never from the model. A revocation is only asked for here; the Auth0 user approves it on the phone.</p>
+{% if not rows %}
+<div class="card">No SoD conflicts found.</div>
+{% else %}
+<table>
+  <thead><tr><th>Severity</th><th>Rule</th><th>User</th><th>Roles</th><th>Explanation</th><th>Action</th></tr></thead>
+  <tbody>
+  {% for row in rows %}
+  {% set f = row.finding %}
+  <tr data-finding="{{ f.rule_id }}|{{ f.user_id }}">
+    <td><span class="badge {{ f.severity }}">{{ f.severity }}</span></td>
+    <td>{{ f.rule_id }}</td>
+    <td>{{ f.user_id }}</td>
+    <td>{{ f.roles[0] }}<br>{{ f.roles[1] }}</td>
+    <td>{% if row.explanation %}{{ row.explanation }}{% else %}<span class="muted">Not generated yet (run scripts/run_review.py).</span>{% endif %}</td>
+    <td>
+      <form method="post" action="/proposals">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <input type="hidden" name="rule_id" value="{{ f.rule_id }}">
+        <input type="hidden" name="user_id" value="{{ f.user_id }}">
+        <select name="role" aria-label="Role to revoke">
+          {% for role in f.roles %}<option value="{{ role }}">{{ role }}</option>{% endfor %}
+        </select>
+        <button type="submit">Propose revocation</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Revocation proposal - SlothGuard{% endblock %}
+{% block head %}{% if proposal.result == "waiting" %}<meta http-equiv="refresh" content="3">{% endif %}{% endblock %}
+{% block content %}
+<h1>Revocation proposal</h1>
+<div class="card">
+  <p>Revoke role <code>{{ proposal.action.role }}</code> from user <code>{{ proposal.action.user_id }}</code>
+     (rule <code>{{ proposal.action.rule_id }}</code>).</p>
+  <p>Message on the phone: <code>{{ proposal.binding_message }}</code></p>
+  {% if proposal.result == "waiting" %}
+    <p><span class="badge waiting">Waiting</span> Approve or deny the request on your phone (Auth0 Guardian). This page refreshes by itself.</p>
+  {% elif proposal.result in ("executed", "already_executed") %}
+    <p><span class="badge executed">Approved</span> The role {{ proposal.action.role }} was revoked from {{ proposal.action.user_id }} in this program's memory. Nothing outside it was changed.</p>
+  {% elif proposal.result == "denied" %}
+    <p><span class="badge denied">Denied</span> The request was denied, so nothing was revoked.</p>
+  {% elif proposal.result == "expired" %}
+    <p><span class="badge expired">Expired</span> No answer arrived in time, so nothing was revoked.</p>
+  {% else %}
+    <p><span class="badge error">Error</span> The approval service could not be used, so nothing was revoked.</p>
+  {% endif %}
+  <p><a href="/">Back to the findings</a> &middot; <a href="/audit">Audit trail</a></p>
+</div>
+{% endblock %}

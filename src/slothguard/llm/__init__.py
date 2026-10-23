@@ -6,8 +6,10 @@ template is used instead, so the report is never blocked by the model.
 """
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional, Protocol
 
 from slothguard.models import Finding, SoDRule
@@ -41,6 +43,7 @@ class LLMClient(Protocol):
 class Explanation:
     text: str
     source: str  # "model", "cache" or "fallback"
+    reason: str = ""  # why the fallback was used: model_error, empty_answer or too_many_sentences
 
 
 class ExplanationCache:
@@ -54,6 +57,37 @@ class ExplanationCache:
 
     def put(self, finding: Finding, text: str) -> None:
         self._data[(finding.rule_id, finding.user_id)] = text
+
+    def save(self, path) -> None:
+        """Write the cached model answers to a JSON file (ids and text only)."""
+        file = Path(path)
+        file.parent.mkdir(parents=True, exist_ok=True)
+        entries = [
+            {"rule_id": rule_id, "user_id": user_id, "text": text}
+            for (rule_id, user_id), text in sorted(self._data.items())
+        ]
+        file.write_text(json.dumps({"version": 1, "entries": entries}, indent=2), encoding="utf-8")
+
+    @classmethod
+    def load(cls, path) -> "ExplanationCache":
+        """Read a file written by save(). A missing file gives an empty cache."""
+        file = Path(path)
+        cache = cls()
+        if not file.exists():
+            return cache
+        try:
+            data = json.loads(file.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as error:
+            raise ValueError(f"{file}: not valid JSON") from error
+        entries = data.get("entries") if isinstance(data, dict) else None
+        if not isinstance(entries, list):
+            raise ValueError(f"{file}: expected an object with an 'entries' list")
+        for entry in entries:
+            if not (isinstance(entry, dict) and all(isinstance(entry.get(k), str)
+                                                    for k in ("rule_id", "user_id", "text"))):
+                raise ValueError(f"{file}: every entry needs rule_id, user_id and text")
+            cache._data[(entry["rule_id"], entry["user_id"])] = entry["text"]
+        return cache
 
 
 def count_sentences(text: str) -> int:
@@ -99,14 +133,14 @@ def explain_finding(
     try:
         answer = client.generate(build_prompt(finding, rule, max_sentences))
     except Exception:
-        return Explanation(text=fallback_text(finding, rule), source="fallback")
+        return Explanation(text=fallback_text(finding, rule), source="fallback", reason="model_error")
 
     if not isinstance(answer, str) or not answer.strip():
-        return Explanation(text=fallback_text(finding, rule), source="fallback")
+        return Explanation(text=fallback_text(finding, rule), source="fallback", reason="empty_answer")
 
     text = answer.strip()
     if count_sentences(text) > max_sentences:
-        return Explanation(text=fallback_text(finding, rule), source="fallback")
+        return Explanation(text=fallback_text(finding, rule), source="fallback", reason="too_many_sentences")
 
     if cache is not None:
         cache.put(finding, text)

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}SlothGuard{% endblock %}</title>
+{% block head %}{% endblock %}
+<style>
+  :root { --ink:#1b2430; --muted:#5b6675; --line:#dfe3e8; --bg:#f5f6f8; --card:#fff; --brand:#2f5d50; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); background:var(--bg); }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  header { background: var(--brand); color:#fff; }
+  header .wrap { display:flex; align-items:center; gap:16px; min-height:56px; flex-wrap:wrap; }
+  header a { color:#fff; text-decoration:none; }
+  .brand { font-weight:700; font-size:18px; }
+  .tag { opacity:.8; font-size:13px; }
+  nav { margin-left:auto; display:flex; gap:16px; align-items:center; }
+  .who { opacity:.85; }
+  main { padding: 24px 20px 40px; }
+  footer { color:var(--muted); font-size:13px; padding-bottom:32px; }
+  h1 { font-size:22px; margin:0 0 8px; } h2 { font-size:17px; margin:24px 0 8px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin:16px 0; }
+  table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { background:#eef1f4; font-size:13px; color:var(--muted); }
+  tr:last-child td { border-bottom:none; }
+  .badge { display:inline-block; padding:2px 10px; border-radius:999px; font-size:12px; font-weight:600; }
+  .high { background:#fde2e1; color:#9b1c1c; } .medium { background:#fdeccb; color:#8a5300; } .low { background:#dff1e6; color:#1d6b3a; }
+  .waiting { background:#e3ecfa; color:#1f4f99; } .executed { background:#dff1e6; color:#1d6b3a; }
+  .denied, .expired, .error { background:#fde2e1; color:#9b1c1c; }
+  .muted { color:var(--muted); }
+  .summary { display:flex; gap:10px; margin:12px 0 4px; flex-wrap:wrap; }
+  button, .button { font:inherit; border:1px solid var(--brand); background:var(--brand); color:#fff; padding:6px 14px; border-radius:8px; cursor:pointer; text-decoration:none; display:inline-block; }
+  button.link { background:none; border:none; color:#fff; padding:0; text-decoration:underline; }
+  form.inline { display:inline; margin:0; }
+  select { font:inherit; padding:5px 8px; border:1px solid var(--line); border-radius:8px; }
+  code { background:#eef1f4; padding:1px 6px; border-radius:5px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">SlothGuard</a>
+    <span class="tag">access review on synthetic data</span>
+    {% if user %}
+    <nav>
+      <a href="/">Findings</a>
+      <a href="/audit">Audit trail</a>
+      <span class="who">{{ user.label }}</span>
+      <form class="inline" method="post" action="/logout">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <button class="link" type="submit">Sign out</button>
+      </form>
+    </nav>
+    {% endif %}
+  </div>
+</header>
+<main class="wrap">
+{% block content %}{% endblock %}
+</main>
+<footer class="wrap">Rules detect, a local model explains, a human approves on their phone. The data is synthetic and a revocation only changes this program's memory.</footer>
+</body>
+</html>
