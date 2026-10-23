@@ -4,3 +4,6 @@ __pycache__/
 .env
 *.gguf
 data/real/
+
+*.pfx
+*.p12
