@@ -10,3 +10,5 @@ data/real/
 
 .env.*
 !.env.example
+
+data/output/
