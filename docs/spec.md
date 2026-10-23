@@ -24,7 +24,7 @@ Quem faz revisão periódica de acessos (GRC, auditoria interna) gasta horas cru
 | FR-02 | Um achado por par usuário-regra; resultado ordenado por gravidade (high, medium, low), depois usuário, depois regra; independente da ordem de entrada | `tests/test_rules.py` |
 | FR-03 | Validar entradas: regra com exatamente 2 papéis distintos, gravidade válida, ids únicos, campos obrigatórios | `tests/test_loaders.py` |
 | FR-04 | Dados do repositório são sintéticos, com tamanho mínimo e com achados reais | `tests/test_data_synthetic.py` |
-| FR-05 | Explicar com no máximo 4 frases; usar texto padrão se o modelo falhar ou devolver vazio; não guardar texto padrão no cache | `tests/test_explain.py` |
+| FR-05 | Explicar com no máximo 4 frases, **aplicado pelo código** e não só pelo prompt (medido em 23/10: 1 de 6 respostas passou do limite); usar texto padrão se o modelo falhar, devolver vazio ou passar do limite; não guardar texto padrão no cache | `tests/test_explain.py` |
 | FR-06 | Relatório em Markdown com resumo por gravidade, um bloco por achado, origem do texto e aviso quando não há explicação | `tests/test_report.py` |
 | FR-07 | Nenhuma revogação sem aprovação; falha fechada; só `revoke_role`; execução idempotente | `tests/test_approvals.py` |
 | FR-08 | Trilha de auditoria: proposed, approved/denied/expired, executed/error | `tests/test_approvals.py` |
@@ -36,11 +36,13 @@ Quem faz revisão periódica de acessos (GRC, auditoria interna) gasta horas cru
 |---|---|
 | `slothguard.models` | `UserAccess(user_id, name, unit, roles: frozenset)`, `SoDRule(id, name, conflicting_roles: tuple de 2, severity, description)`, `Finding(rule_id, user_id, roles: tuple, severity)`; todos imutáveis |
 | `slothguard.rules` | `detect_conflicts(users, rules) -> list[Finding]`, `load_users(path)`, `load_rules(path)` (lançam `ValueError` para entrada inválida e `FileNotFoundError` para arquivo ausente) |
-| `slothguard.llm` | `Explanation(text, source)` com `source` em `"model"`, `"cache"`, `"fallback"`; `ExplanationCache` com `get(finding)` e `put(finding, text)`; `explain_finding(finding, rule, client, cache=None) -> Explanation`; `OllamaClient(host, model)` com `generate(prompt) -> str` |
+| `slothguard.llm` | `Explanation(text, source)` com `source` em `"model"`, `"cache"`, `"fallback"`; `ExplanationCache` com `get(finding)` e `put(finding, text)`; `explain_finding(finding, rule, client, cache=None, max_sentences=4) -> Explanation`; `count_sentences(text) -> int`; `MAX_SENTENCES = 4`; `OllamaClient(host, model)` com `generate(prompt) -> str`, que envia `think: false` |
 | `slothguard.auth.approvals` | `ApprovalStatus` (`PENDING`, `APPROVED`, `DENIED`, `EXPIRED`), `RemediationAction(kind, user_id, role, rule_id)`, `PendingRemediation(request_id, action)`, `AuditEntry(event, request_id, user_id, role)`, `RemediationExecutor(gateway, revoker)` com `propose(action)`, `execute(pending)` e `audit` |
 | `slothguard.report` | `build_report(findings, explanations, generated_on: date) -> str`, com `explanations` indexado por `(rule_id, user_id)` |
 
 `execute` devolve uma destas strings: `"executed"`, `"already_executed"`, `"waiting"`, `"denied"`, `"expired"`, `"error"`.
+
+Regra do limite de frases: uma resposta do modelo com mais de `max_sentences` frases é descartada e substituída pelo texto de reserva (`source="fallback"`), que não vai para o cache. Frases são contadas pelo código (`count_sentences`), que separa em ponto, exclamação ou interrogação seguidos de espaço e de uma letra maiúscula ou número.
 
 Interfaces que as peças reais devem cumprir (nos testes são falsificadas):
 - **Gateway de aprovação** (`Auth0CibaGateway`, em `src/slothguard/auth/`): `request_approval(action) -> request_id` e `get_status(request_id) -> ApprovalStatus`.
@@ -63,11 +65,11 @@ O conjunto fornecido tem 40 usuários e 9 regras. Em uma execução de verifica�
 
 ## 7. Verificação manual (sem teste automatizado, por depender do tenant Auth0)
 
-Tudo é feito em um tenant **gratuito do Auth0**, sem pagar nada (princípio 11 da constituição).
+Tudo é feito em um tenant **do Auth0 sem pagar nada** (princípio 11 da constituição). O tenant está em um período de avaliação gratuito (21 dias restantes em 23/10/2026).
 
-- Login via Universal Login (nível 1 do Auth0).
-- Aprovação assíncrona (CIBA) de ponta a ponta (nível 2). **As fontes divergem sobre o plano gratuito:** o anúncio oficial de disponibilidade geral do Auth0 for AI Agents (24/11/2025) diz que o plano gratuito inclui a autorização assíncrona, enquanto páginas da documentação dizem que o CIBA exige o plano Enterprise ou um complemento, e que a notificação por e-mail é um complemento pago. Só o tenant gratuito resolve a dúvida. Se o recurso não estiver disponível sem pagar, usar o gateway simulado e declarar isso no post, sem afirmar o uso da autorização assíncrona.
-- Pré-requisitos do CIBA segundo a documentação: o usuário autorizador precisa ter um canal de notificação (push do app Guardian ou e-mail verificado).
+- Login via Universal Login (nível 1 do Auth0): ainda não testado.
+- Aprovação assíncrona (CIBA) de ponta a ponta (nível 2): **verificada em 23/10/2026** com `scripts/ciba_smoke_test.py`. A aprovação no celular retornou `APPROVED` (11,8 s) e a recusa retornou `DENIED or expired` (5,9 s), pelo canal Guardian Push, com o usuário de teste cadastrado no app Auth0 Guardian. Os tempos incluem a resposta humana e o intervalo de 5 s da consulta, então não são latência do Auth0. **As fontes divergiam** sobre o plano gratuito (o anúncio oficial dizia que incluía a autorização assíncrona, e páginas da documentação diziam que exigia Enterprise ou complemento); o teste resolve a dúvida só para o período de avaliação. **Disponibilidade depois da avaliação: não verificada**, e o post deve dizer que foi usado durante a avaliação.
+- Pré-requisitos confirmados no teste: CIBA habilitado na aplicação `slothguard-web` (Regular Web Application), fator Push do Guardian ligado em Security > Multi-factor Auth, e usuário de teste com e-mail verificado e cadastrado no push. O canal de e-mail (complemento pago) ficou desligado.
 
 ## 8. Extra, só se sobrar tempo
 
@@ -77,4 +79,17 @@ Auth0 FGA para limitar o que o RAG recupera por perfil, somente se estiver dispo
 
 - Velocidade do modelo em CPU de 15 W com memória em canal único: medir antes de prometer qualquer número.
 - RAM quase toda ocupada na máquina de desenvolvimento: fechar programas antes de carregar o modelo.
-- CIBA no plano gratuito do Auth0: fontes divergentes, ver item 7. Sem pagar nada, o fallback é o gateway simulado, declarado no post.
+- CIBA depois do período de avaliação do Auth0: não verificado (ver item 7). Se deixar de estar disponível, o fallback é o gateway simulado, declarado no post.
+- Qualidade do texto do modelo: em 23/10, a palavra "critical" apareceu em 4 de 6 respostas com gravidade "high", e 1 resposta passou do limite de 4 frases. A gravidade vem sempre das regras, e o limite de frases é aplicado pelo código.
+
+## 10. Gateway do Auth0 CIBA (tarefa T12): requisitos verificados
+
+Conferidos na documentação do Auth0 e no teste manual de 23/10/2026:
+
+- Pedido em `/bc-authorize` (formulário): `client_id`, `client_secret`, `login_hint` com `{"format": "iss_sub", "iss": "https://<domínio>/", "sub": "<user_id>"}`, `scope=openid`, `binding_message` e `requested_expiry`.
+- `binding_message`: obrigatória, até 64 caracteres, só alfanuméricos e `+-_.,:#`.
+- `requested_expiry` de até 300 s usa o canal de push; de 301 a 259200 s usa o e-mail (complemento pago, desligado).
+- Resposta: `auth_req_id`, `expires_in` e `interval` (cerca de 5 s). Consulta em `/oauth/token` com o grant `urn:openid:params:grant-type:ciba`; `authorization_pending` enquanto espera; `slow_down` pede intervalo maior; `access_denied` para recusa **e** para expiração.
+- No máximo 5 pedidos por minuto por usuário.
+- Mapeamento para `ApprovalStatus`: `authorization_pending` = `PENDING`; token recebido = `APPROVED`; `access_denied` antes do prazo local = `DENIED`; prazo local vencido sem resposta = `EXPIRED`.
+- Credenciais só do `.env`; nunca impressas nem registradas na trilha de auditoria.
