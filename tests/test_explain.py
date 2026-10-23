@@ -1,5 +1,7 @@
 """The model only explains findings. It never decides them and never blocks the report."""
-from slothguard.llm import ExplanationCache, explain_finding
+import pytest
+
+from slothguard.llm import MAX_SENTENCES, ExplanationCache, count_sentences, explain_finding
 from slothguard.models import Finding
 
 
@@ -79,6 +81,67 @@ def test_fallback_is_not_cached_so_a_later_call_can_recover(rules):
     rule, finding = _finding(rules)
     cache = ExplanationCache()
     client = FakeClient([RuntimeError("temporary"), "Recovered explanation."])
+    first = explain_finding(finding, rule, client, cache=cache)
+    second = explain_finding(finding, rule, client, cache=cache)
+    assert first.source == "fallback"
+    assert second.source == "model"
+    assert second.text == "Recovered explanation."
+
+
+# ---- sentence limit (T06): enforced by the code, not only by the prompt ----
+
+def test_default_sentence_limit_is_four():
+    assert MAX_SENTENCES == 4
+
+
+@pytest.mark.parametrize("text, expected", [
+    ("", 0),
+    ("   \n ", 0),
+    ("One sentence only.", 1),
+    ("First one. Second one! Third one?", 3),
+    ("First line.\nSecond line.", 2),
+    ("Rule SOD-001. User U001 holds both roles.", 2),
+    ("Review access, e.g. approvals. Then escalate.", 2),
+    ("No final punctuation", 1),
+])
+def test_count_sentences(text, expected):
+    assert count_sentences(text) == expected
+
+
+def test_prompt_uses_the_configured_sentence_limit(rules):
+    rule, finding = _finding(rules)
+    client = FakeClient(["ok"])
+    explain_finding(finding, rule, client, max_sentences=3)
+    assert "3 sentences" in client.prompts[0]
+
+
+def test_answer_with_exactly_four_sentences_is_accepted(rules):
+    rule, finding = _finding(rules)
+    text = "One. Two. Three. Four."
+    result = explain_finding(finding, rule, FakeClient([text]))
+    assert result.source == "model"
+    assert result.text == text
+
+
+def test_answer_with_more_than_four_sentences_falls_back(rules):
+    rule, finding = _finding(rules)
+    text = "One. Two. Three. Four. Five."
+    result = explain_finding(finding, rule, FakeClient([text]))
+    assert result.source == "fallback"
+    assert result.text != text
+    assert rule.name in result.text
+
+
+def test_sentence_limit_is_configurable(rules):
+    rule, finding = _finding(rules)
+    result = explain_finding(finding, rule, FakeClient(["One. Two. Three."]), max_sentences=2)
+    assert result.source == "fallback"
+
+
+def test_answer_over_the_limit_is_not_cached(rules):
+    rule, finding = _finding(rules)
+    cache = ExplanationCache()
+    client = FakeClient(["One. Two. Three. Four. Five.", "Recovered explanation."])
     first = explain_finding(finding, rule, client, cache=cache)
     second = explain_finding(finding, rule, client, cache=cache)
     assert first.source == "fallback"
