@@ -27,14 +27,6 @@ Todos os dados são sintéticos. Uma "revogação" só altera uma cópia desses 
    de "aprovar". Negado, sem resposta (120 s) ou com falha significa que nada é revogado, e cada passo
    é gravado em uma trilha de auditoria.
 
-### Sequência de operação
-
-![Fase 1: as regras detectam os achados e um modelo local os explica](docs/images/slothguard_fig1_detect_explain.png)
-
-![Fase 2: nada é revogado sem aprovação humana no celular via Auth0](docs/images/slothguard_fig2_human_approval.png)
-
-*Regras detectam, o modelo explica, uma pessoa aprova.*
-
 ## Como rodar (Windows PowerShell)
 
 Requisitos: Python 3.10 ou mais novo, o [Ollama](https://ollama.com) com o modelo baixado

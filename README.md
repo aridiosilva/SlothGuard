@@ -27,14 +27,6 @@ All data is synthetic. A "revocation" only changes an in-memory copy of that dat
    "approve". Denied, unanswered (120 s) or failed means nothing is revoked, and every step is
    written to an audit trail.
 
-### Sequence of operation
-
-![Phase 1: rules detect findings and a local model explains them](docs/images/slothguard_fig1_detect_explain.png)
-
-![Phase 2: nothing is revoked without human approval on the phone through Auth0](docs/images/slothguard_fig2_human_approval.png)
-
-*Rules detect, the model explains, a human approves.*
-
 ## Run it (Windows PowerShell)
 
 Requirements: Python 3.10 or newer, [Ollama](https://ollama.com) with the model pulled
