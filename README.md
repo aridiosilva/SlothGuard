@@ -80,7 +80,18 @@ Tests came first for each piece: the history shows `test:` commits before the ma
 
 ## Measurements (real runs, with their conditions)
 
-See `docs/evidence/`. On a Dell all-in-one with an Intel Core i5-1334U, 16 GB of RAM in a single memory channel and no dedicated GPU, Gemma 4 E2B through Ollama generated 13 to 22 tokens per second. Turning the model's thinking trace off cut the generated tokens by about 81%. Explaining the 8 findings took 97 to 157 seconds across three runs (free memory of 6.1, 4.3 and 1.1 GB; the spread was not diagnosed). The Ollama version was 0.40.8 for the terminal measurements and 0.40.10 later.
+See `docs/evidence/`. On a Dell all-in-one with an Intel Core i5-1334U, 16 GB of RAM in a single memory channel and no dedicated GPU, Gemma 4 E2B through Ollama generated 13 to 22 tokens per second. Turning the model's thinking trace off cut the generated tokens by about 81%. Explaining the 8 findings took between 63.5 and 157.4 seconds across the runs recorded in `docs/evidence/` (table below). The spread was not diagnosed, and free memory alone does not explain it: the fastest run had only 2.1 GB free, although the model was probably still loaded from the previous run. The Ollama version was 0.40.8 for the terminal measurements and 0.40.10 later.
+
+| Date | Total | Conditions | Evidence |
+|---|---|---|---|
+| 23 Oct | 97.1 s | Free RAM 6.1 GB; Ollama started by hand; ChatGPT closed | `review-run.md` |
+| 23 Oct | 139.0 s | Free RAM 4.3 GB; Claude and a browser still open; model unloaded before the run | `review-run-4.3gb-2026-10-23.md` |
+| 23 Oct | 157.4 s | Free RAM 1.1 GB; not a clean run | `review-run-low-ram.md` |
+| 24 Oct | 98.9 s | Not recorded; the run shown in the demo video | (video) |
+| 25 Oct | 104.1 s | Airplane mode, two browsers open; RAM and connectivity not measured | `review-run-airplane-two-browsers-2026-10-25.md` |
+| 25 Oct | 63.5 s | Offline (connectivity check returned False); free RAM 2.1 GB | `review-run-offline-2026-10-25.md` |
+
+Conditions of the two runs of 25 Oct: `docs/evidence/offline-test-2026-10-25.md`.
 
 ## Limits
 
@@ -116,6 +127,16 @@ For verification, the tests were written before the code they cover, and the sui
 *Roles in the development process and the open-source AI runtime inside the product. Diagram redrawn and extended with Claude at the author's direction.*
 
 © Aridio Silva @aridiosilva
+
+## License
+
+- Code: MIT License, see `LICENSE`.
+- Documentation, figures, diagrams, videos and post text: CC BY 4.0, see `LICENSE-DOCS.txt`. (c) 2026 Aridio Silva @aridiosilva.
+- The Gemma model is not part of this repository. It is distributed by Google, and its own license applies.
+
+## Submission post
+
+Post: `docs/post/` ([post_en.md](docs/post/post_en.md), [post_pt.md](docs/post/post_pt.md)). Demo video: https://youtu.be/9JlqE3jBITk
 
 ## Commits after the submission deadline
 
