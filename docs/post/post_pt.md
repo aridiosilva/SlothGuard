@@ -137,7 +137,7 @@ O prompt pede ao modelo que se limite a 4 frases e não mude a severidade. O có
 
 **Posso medir e ajustar.** Como eu executo o modelo, pude olhar tokens e segundos na máquina que faz o trabalho. O Gemma escreve um longo trecho de raciocínio antes de cada resposta. Desligá-lo reduziu os tokens gerados em cerca de 81% (de 506 para 94 em média, três execuções de cada) e levou uma explicação com o modelo já carregado de cerca de 27 s para cerca de 6 s, com a mesma velocidade por token (13 a 22 tokens por segundo). Eu medi, não presumi (`docs/evidence/ollama-baseline.md`).
 
-**É pequeno o bastante para um PC comum.** Tudo rodou num Dell 24 All-in-One (EC24250). A planilha `docs/recursos_hardware_e_limitacoes_v2.xlsx` do repositório traz a tabela completa de recursos e limites (em português). Em resumo:
+**É pequeno o bastante para um PC comum.** Tudo rodou num Dell 24 All-in-One (EC24250). A planilha `docs/hardware_resources_and_limits_v2.xlsx` do repositório traz a tabela completa de recursos e limites. Em resumo:
 
 | Item | Valor |
 |---|---|

@@ -12,3 +12,6 @@ data/real/
 !.env.example
 
 data/output/
+
+# local Portuguese workbook (the English version is tracked)
+docs/recursos_hardware_e_limitacoes_v2.xlsx

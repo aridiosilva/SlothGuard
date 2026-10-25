@@ -137,7 +137,7 @@ The prompt asks the model to keep to 4 sentences and not to change the severity.
 
 **I can measure and tune it.** Because I run the model, I could look at tokens and seconds on the machine that does the work. Gemma writes a long thinking trace before each answer. Turning it off cut the generated tokens by about 81% (506 to 94 on average, three runs each) and took a warm explanation from about 27 s to about 6 s, at the same speed per token (13 to 22 tokens per second). I measured it, I did not assume it (`docs/evidence/ollama-baseline.md`).
 
-**It is small enough for an ordinary PC.** Everything ran on a Dell 24 All-in-One (EC24250). The workbook `docs/recursos_hardware_e_limitacoes_v2.xlsx` in the repository has the full table of resources and limits (in Portuguese). In short:
+**It is small enough for an ordinary PC.** Everything ran on a Dell 24 All-in-One (EC24250). The workbook `docs/hardware_resources_and_limits_v2.xlsx` in the repository has the full table of resources and limits. In short:
 
 | Item | Value |
 |---|---|
