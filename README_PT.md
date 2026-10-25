@@ -80,7 +80,18 @@ Os testes vieram primeiro em cada peça: o histórico mostra commits `test:` ant
 
 ## Medições (execuções reais, com as suas condições)
 
-Veja `docs/evidence/`. Em um Dell all-in-one com Intel Core i5-1334U, 16 GB de RAM em canal único de memória e sem GPU dedicada, o Gemma 4 E2B pelo Ollama gerou de 13 a 22 tokens por segundo. Desligar o rastro de raciocínio do modelo reduziu os tokens gerados em cerca de 81%. Explicar os 8 achados levou de 97 a 157 segundos em três execuções (memória livre de 6,1, 4,3 e 1,1 GB; a variação não foi diagnosticada). A versão do Ollama foi a 0.40.8 nas medições de terminal e a 0.40.10 depois.
+Veja `docs/evidence/`. Em um Dell all-in-one com Intel Core i5-1334U, 16 GB de RAM em canal único de memória e sem GPU dedicada, o Gemma 4 E2B pelo Ollama gerou de 13 a 22 tokens por segundo. Desligar o rastro de raciocínio do modelo reduziu os tokens gerados em cerca de 81%. Explicar os 8 achados levou entre 63,5 e 157,4 segundos nas execuções registradas em `docs/evidence/` (tabela abaixo). A variação não foi diagnosticada, e a memória livre sozinha não a explica: a execução mais rápida tinha só 2,1 GB livres, embora o modelo provavelmente ainda estivesse carregado da execução anterior. A versão do Ollama foi a 0.40.8 nas medições de terminal e a 0.40.10 depois.
+
+| Data | Total | Condições | Evidência |
+|---|---|---|---|
+| 23/10 | 97,1 s | RAM livre de 6,1 GB; Ollama iniciado à mão; ChatGPT fechado | `review-run.md` |
+| 23/10 | 139,0 s | RAM livre de 4,3 GB; Claude e um navegador ainda abertos; modelo descarregado antes da execução | `review-run-4.3gb-2026-10-23.md` |
+| 23/10 | 157,4 s | RAM livre de 1,1 GB; execução não limpa | `review-run-low-ram.md` |
+| 24/10 | 98,9 s | Não registradas; a execução mostrada no vídeo da demo | (vídeo) |
+| 25/10 | 104,1 s | Modo avião, dois navegadores abertos; RAM e conectividade não medidas | `review-run-airplane-two-browsers-2026-10-25.md` |
+| 25/10 | 63,5 s | Offline (o teste de conectividade retornou False); RAM livre de 2,1 GB | `review-run-offline-2026-10-25.md` |
+
+Condições das duas execuções de 25/10: `docs/evidence/offline-test-2026-10-25.md`.
 
 ## Limites
 
@@ -116,6 +127,16 @@ Para verificação, os testes foram escritos antes do código que cobrem, e a su
 *Papéis no processo de desenvolvimento e o runtime de IA de código aberto dentro do produto. Diagrama redesenhado e ampliado com o Claude sob a direção do autor.*
 
 © Aridio Silva @aridiosilva
+
+## Licença
+
+- Código: Licença MIT, veja `LICENSE`.
+- Documentação, figuras, diagramas, vídeos e texto do post: CC BY 4.0, veja `LICENSE-DOCS.txt`. (c) 2026 Aridio Silva @aridiosilva.
+- O modelo Gemma não faz parte deste repositório. Ele é distribuído pelo Google, e a licença dele se aplica.
+
+## Post da submissão
+
+Post: `docs/post/` ([post_en.md](docs/post/post_en.md), [post_pt.md](docs/post/post_pt.md)). Vídeo da demo: https://youtu.be/9JlqE3jBITk
 
 ## Commits após o prazo de submissão
 
